@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body class="container">
+    <style>
+        #div_payment{
+            display: none;
+        }
+        #table_pay{
+            display: none;
+        }
+    </style>
+    <script>
+        var total=0;
+        function myFunction(){
+            var prod_quantity = document.getElementById('prod_quantity').value;
+            var price= document.getElementById('prod_price').value;
+            
+            if (prod_quantity==null || prod_quantity=="") alert("Type a quantity");
+            else{
+                total = parseInt(prod_quantity)*parseInt(price)
+                //money_amount
+                document.getElementById('money_amount').value= total
+                document.getElementById('currency').value= 'usd'
+                document.getElementById("div_payment").style.display = "block";
+                document.getElementById("table_prod").style.display = "none";
+            }
+        }
+
+        function myFunction2(){
+            //alert("Hello");
+            document.getElementById("div_payment").style.display = "none";
+            document.getElementById("table_prod").style.display = "block";
+        }
+
+        function myFunction3(){
+            
+            document.getElementById("table_checkout").style.display = "none";
+            document.getElementById("table_pay").style.display = "block";
+            
+        }
+
+        function myFunction4(){
+            type_curr=  document.getElementById('currency').value;
+            if (type_curr=='usd') document.getElementById('money_amount').value= total
+            else if(type_curr=='pen') document.getElementById('money_amount').value= total*3.96
+            else if(type_curr=='eur') document.getElementById('money_amount').value= total*1.01
+            
+        }
+
+        function myFunction5(sel){
+            prod_name=sel.options[sel.selectedIndex].text
+            document.getElementById('prod_name').value=prod_name
+        }
+
+    </script>
+
+    <form action="main.php" method="POST">
+        <div id="table_prod">
+        <table id="" class="table text-center">
+            <tr><td colspan="2"><h2>Choose your product</h2></td></tr>
+            <tr>
+                <td><h4>Product</h4></td>
+                <td><h4>Quantity</h4></td>
+            </tr>
+            <tr>
+                <td>
+                    <select id="prod_price" name="prod_price" class="form-select form-select-lg" onChange="myFunction5(this)">
+                        
+                        <option value="20">Dress - $ 20</option>
+                        <option value="15">Pants - $ 15</option>
+                        <option value="5">Shirt - $ 5</option>
+                        <option value="1">Socks - $ 1</option>
+                    </select>
+                    <input id="prod_name" name="prod_name" type="text" value="Coat ($ 100)" hidden>
+                    
+                </td>
+                <td><input id="prod_quantity" name="prod_quantity" type="number" class="input"></td>
+            </tr>
+            <tr>
+               <td colspan="2" ><button class="btn btn-primary" type="button" onclick="myFunction()">Next</button></td> 
+            </tr>
+        </table>
+        </div>
+        
+        <div id="div_payment">
+            <div id="table_checkout">
+            <table class="table text-center">
+                <tr>
+                    <td colspan="2"><h3>Checkout</h3></td>
+                </tr>
+                <tr>
+                    <td><label>Amount: <input id="money_amount" name="money_amount" type="number" disabled> </label></td>
+                    <td><label>Currency:
+                        <select id="currency" name="currency" onchange="myFunction4()">
+                            <option value="pen">PEN</option>
+                            <option value="usd" selected>USD</option>
+                            <option value="eur">EUR</option>
+                        </select> 
+                    </label></td>
+                </tr>
+                <tr>
+                    <td><button name="" type="button" class="btn btn-warning" onclick="myFunction2()">Back</button></td>
+                    <td><button name="" type="button" class="btn btn-success" onclick="myFunction3()">Pay</button></td>
+                </tr>
+            </table>
+            </div>
+
+            <div id="table_pay">
+            <table id="" class="table text-center">
+                <tr><td colspan="2"><h3>Payment</h3></td></tr>
+                <tr>
+                    <td><label>Method:
+                        <select name="method">
+                            <option>Card</option>
+                        </select> 
+                    </label></td>
+                    <td><label><input id="card_number" name="card_number" type="text" placeholder="Card number" value="4242 4242 4242 4242"> </label></td>
+                </tr>
+                <tr>    
+                    <td><label><input id="expiration" name="expiration" type="" placeholder="Expiration" value="12/2026"> </label></td>
+                    <td><label><input id="cvc" name="cvc" type="" placeholder="CVC" value="567"> </label></td>
+                </tr>
+                <tr>
+                    <td><a href="http://localhost/interview/cancel.html" type="submit" class="btn btn-danger btn-lg" name="pay_a">Cancel</button></td>
+                    <td><button type="submit" class="btn btn-success btn-lg" name="pay_button">Pay Now</button></td>
+                </tr>
+                
+            </table>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
